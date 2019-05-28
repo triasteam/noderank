@@ -50,7 +50,7 @@ func AddAttestationInfo(addr1 string, url string, info []string) error {
 	raw := new(teectx)
 	raw.Attester = info[0]
 	raw.Attestee = info[1]
-	num, err := strconv.ParseUint(info[2], 10, 64)
+	num, err := strconv.ParseInt(info[2], 10, 64)
 	if err != nil {
 		return err
 	}
