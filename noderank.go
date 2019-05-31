@@ -6,7 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/awalterschulze/gographviz"
-	"github.com/wunder3605/pagerank"
+	"github.com/triasteam/pagerank"
 	"io/ioutil"
 	"log"
 	"net/http"
