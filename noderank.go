@@ -122,7 +122,7 @@ func GetRank(uri string, period int64, numRank int64) ([]teescore, []teectx, err
 	var teectxslice []teectx
 
 	graph.Rank(0.85, 0.0001, func(attestee string, score float64) {
-		tee := teescore{attestee, score}
+		tee := teescore{attestee, FloatRound(score,8)}
 		rst = append(rst, tee)
 	})
 	sort.Sort(teescoreslice(rst))
@@ -143,6 +143,12 @@ func GetRank(uri string, period int64, numRank int64) ([]teescore, []teectx, err
 	}
 
 	return rst, teectxslice, nil
+}
+
+func FloatRound(f float64, n int) float64 {
+	format := "%." + strconv.Itoa(n) + "f"
+	res, _ := strconv.ParseFloat(fmt.Sprintf(format, f), 64)
+	return res
 }
 
 func PrintHCGraph(uri string, period string) error {
