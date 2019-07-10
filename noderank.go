@@ -68,7 +68,7 @@ func AddAttestationInfo(addr1 string, url string, info []string) error {
 	}
 
 	d := time.Now()
-	ds := d.Format("20190227")
+	ds := d.Format("20060102")
 	data := "{\"command\":\"storeMessage\",\"address\":" + addr1 + ",\"message\":" + url2.QueryEscape(string(ms[:])) + ",\"tag\":\"" + ds + "TEE\"}"
 	_, err = doPost(url, []byte(data))
 	if err != nil {
