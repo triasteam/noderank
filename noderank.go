@@ -223,6 +223,7 @@ func doPost(uri string, d []byte) ([]byte, error) {
 
 	client := &http.Client{}
 	res, err := client.Do(req)
+	fmt.Println("request result:", res, ", err:", err)
 	if err != nil {
 		return nil, err
 	}
