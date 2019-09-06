@@ -214,6 +214,7 @@ func doPost(uri string, d []byte) ([]byte, error) {
 	if uri == "" {
 		uri = url
 	}
+	fmt.Println("node rank request iota url is: ", uri)
 	req, err := http.NewRequest("POST", uri, bytes.NewBuffer(d))
 	if err != nil {
 		return nil, err
