@@ -89,17 +89,20 @@ func GetRank(uri string, period int64, numRank int64) ([]teescore, []teectx, err
 	data := "{\"command\":\"getBlocksInPeriodStatement\",\"period\":" + strconv.FormatInt(period, 10) + "}"
 	r, err := doPost(uri, []byte(data))
 	if err != nil {
+		fmt.Println("do post error, data = ", data)
 		return nil, nil, err
 	}
 	var result Response
 	err = json.Unmarshal(r, &result)
 	if err != nil {
+		fmt.Println("unmarshal Response error, r = ", r)
 		return nil, nil, err
 	}
 
 	var msgArr []string
 	err = json.Unmarshal([]byte(result.Blocks), &msgArr)
 	if err != nil {
+		fmt.Println("unmarshal string array error, result.Blocks = ", result.Blocks)
 		return nil, nil, err
 	}
 
@@ -110,11 +113,13 @@ func GetRank(uri string, period int64, numRank int64) ([]teescore, []teectx, err
 	for _, m2 := range msgArr {
 		msgT, err := url2.QueryUnescape(m2)
 		if err != nil {
+			fmt.Println("QueryUnescape error, m2 = ", m2)
 			return nil, nil, err
 		}
 		var msg message
 		err = json.Unmarshal([]byte(msgT), &msg)
 		if err != nil {
+			fmt.Println("unmarshal message error, msgT = ", msgT)
 			return nil, nil, err
 		}
 
