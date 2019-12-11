@@ -9,6 +9,7 @@ import (
 	"github.com/triasteam/pagerank"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	url2 "net/url"
 	"sort"
@@ -90,10 +91,14 @@ func GetRank(uri string, period int64, numRank int64) ([]teescore, []teectx, err
 	r, err := doPost(uri, []byte(data))
 	if err != nil {
 		fmt.Println("do post error, data = ", data)
-		return nil, nil, err
+		panic(err)
 	}
+	return CaculateRank(r, period, numRank)
+}
+
+func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, error) {
 	var result Response
-	err = json.Unmarshal(r, &result)
+	err := json.Unmarshal(r, &result)
 	if err != nil {
 		fmt.Println("unmarshal Response error, r = ", r)
 		return nil, nil, err
@@ -126,8 +131,15 @@ func GetRank(uri string, period int64, numRank int64) ([]teescore, []teectx, err
 		rArr := msg.TeeContent
 
 		for _, r := range rArr {
-			graph.Link(r.Attester, r.Attestee, r.Score)
-			cm[r.Attestee] = teectx{r.Attester, r.Attestee, r.Score, "", "", 0, ""}
+			if math.IsNaN(r.Score) || math.IsInf(r.Score, 0) {
+				fmt.Println("un invalid rank param. score : ", r.Score)
+			} else {
+				if r.Score == 0 {
+					fmt.Println("un invalid rank param. score is zero.")
+				}
+				graph.Link(r.Attester, r.Attestee, r.Score)
+				cm[r.Attestee] = teectx{r.Attester, r.Attestee, r.Score, "", "", 0, ""}
+			}
 		}
 	}
 
