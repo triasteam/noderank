@@ -1,3 +1,8 @@
+// Copyright by StreamNet team
+// 功能描述：
+// 1. 拼装新增证实交易请求；
+// 2. 获取被证实节点的排名：将dag中的证实交易按一定顺序构造全拓扑序，以分页的方式获取指定n个证实交易作为输入，使用pagerank算法计算出这些节点的排名。
+
 package noderank
 
 import (
