@@ -1,5 +1,5 @@
 # how to install
 
 ```
-go get github.com/wunder3605/noderank
+go get github.com/triasteam/noderank
 ```
