@@ -91,6 +91,9 @@ func AddAttestationInfo(addr1 string, url string, info []string) error {
 	return nil
 }
 
+//根据条件获取到的所有证实交易都会参与noderank计算，结果返回前numRank的得分和对应得证实交易数（由于待输出数据是以attestee作为key得map中保存，
+//   最终输出得teectx最终数量会少于实际）。
+//uri StreamNet服务restful地址， peroid表示把全部交易按每页100个分页后所取页数，numRank 取排名后前numRank个被证实节点
 func GetRank(uri string, period int64, numRank int64) ([]teescore, []teectx, error) {
 	data := "{\"command\":\"getBlocksInPeriodStatement\",\"period\":" + strconv.FormatInt(period, 10) + "}"
 	r, err := doPost(uri, []byte(data))
