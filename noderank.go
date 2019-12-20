@@ -123,6 +123,8 @@ func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, 
 
 	cm := make(map[string]teectx)
 
+	rArr0 := []teectx{}
+
 	for _, m2 := range msgArr {
 		msgT, err := url2.QueryUnescape(m2)
 		if err != nil {
@@ -147,6 +149,7 @@ func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, 
 				}
 				graph.Link(r.Attester, r.Attestee, r.Score)
 				cm[r.Attestee] = teectx{r.Attester, r.Attestee, r.Score, "", "", 0, ""}
+				rArr0 = append(rArr0, r)
 			}
 		}
 	}
@@ -169,9 +172,21 @@ func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, 
 	}
 
 	rst = rst[0:endIdx]
+	//for _, r := range rst {
+	//	if v, ok := cm[r.Attestee]; ok {
+	//		teectxslice = append(teectxslice, v)
+	//	}
+	//}
+	//以结果的Attestee作为key
+	scoreMap := make(map[string]float64)
 	for _, r := range rst {
-		if v, ok := cm[r.Attestee]; ok {
-			teectxslice = append(teectxslice, v)
+		scoreMap[r.Attestee] = r.Score
+	}
+
+	//遍历数组，获取前n个排名的被实节点对应的证实交易。
+	for _, r := range rArr0 {
+		if scoreMap[r.Attestee] != 0 {
+			teectxslice = append(teectxslice, r)
 		}
 	}
 
