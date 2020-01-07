@@ -19,6 +19,7 @@ import (
 	url2 "net/url"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -47,7 +48,7 @@ type teescore struct {
 	Score    float64 `json:"score"`
 }
 
-type teescoreslice []teescore
+type TeeSoreSlice []teescore
 
 var url = "http://localhost:14700"
 var addr = "JVSVAFSXWHUIZPFDLORNDMASGNXWFGZFMXGLCJQGFWFEZWWOA9KYSPHCLZHFBCOHMNCCBAGNACPIGHVYX"
@@ -161,7 +162,7 @@ func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, 
 		tee := teescore{attestee, FloatRound(score, 8)}
 		rst = append(rst, tee)
 	})
-	sort.Sort(teescoreslice(rst))
+	sort.Sort(TeeSoreSlice(rst))
 	if len(rst) < 1 {
 		return nil, nil, nil
 	}
@@ -277,14 +278,17 @@ func doPost(uri string, d []byte) ([]byte, error) {
 	return r, nil
 }
 
-func (r teescoreslice) Len() int {
-	return len(r)
+func (t TeeSoreSlice) Len() int {
+	return len(t)
 }
 
-func (r teescoreslice) Swap(i, j int) {
-	r[i], r[j] = r[j], r[i]
+func (t TeeSoreSlice) Swap(i, j int) {
+	t[i], t[j] = t[j], t[i]
 }
 
-func (r teescoreslice) Less(i, j int) bool {
-	return r[j].Score < r[i].Score
+func (t TeeSoreSlice) Less(i, j int) bool {
+	if t[i].Score != t[j].Score {
+		return t[i].Score > t[j].Score
+	}
+	return strings.Compare(t[j].Attestee, t[i].Attestee) > 0
 }
