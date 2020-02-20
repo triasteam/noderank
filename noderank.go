@@ -2,7 +2,6 @@
 // 功能描述：
 // 1. 拼装新增证实交易请求；
 // 2. 获取被证实节点的排名：将dag中的证实交易按一定顺序构造全拓扑序，以分页的方式获取指定n个证实交易作为输入，使用pagerank算法计算出这些节点的排名。
-
 package noderank
 
 import (
@@ -23,6 +22,7 @@ import (
 	"time"
 )
 
+// Response ...
 type Response struct {
 	Blocks   string `json:"blocks"`
 	Duration int    `json:"duration"`
@@ -48,6 +48,7 @@ type teescore struct {
 	Score    float64 `json:"score"`
 }
 
+// TeeSoreSlice ...
 type TeeSoreSlice []teescore
 
 var url = "http://localhost:14700"
@@ -57,6 +58,7 @@ var (
 	file = flag.String("file", "noderank/config.yaml", "IOTA CONFIGURATION")
 )
 
+// AddAttestationInfo ...
 func AddAttestationInfo(addr1 string, url string, info []string) error {
 	raw := new(teectx)
 	raw.Attester = info[0]
@@ -92,9 +94,9 @@ func AddAttestationInfo(addr1 string, url string, info []string) error {
 	return nil
 }
 
-//根据条件获取到的所有证实交易都会参与noderank计算，结果返回前numRank的得分和对应得证实交易数（由于待输出数据是以attestee作为key得map中保存，
-//   最终输出得teectx最终数量会少于实际）。
-//uri StreamNet服务restful地址， peroid表示把全部交易按每页100个分页后所取页数，numRank 取排名后前numRank个被证实节点
+// 根据条件获取到的所有证实交易都会参与noderank计算，结果返回前numRank的得分和对应得证实交易数（由于待输出数据是以attestee作为key得map中保存，
+// 最终输出得teectx最终数量会少于实际）。
+// uri StreamNet服务restful地址， peroid表示把全部交易按每页100个分页后所取页数，numRank 取排名后前numRank个被证实节点
 func GetRank(uri string, period int64, numRank int64) ([]teescore, []teectx, error) {
 	data := "{\"command\":\"getBlocksInPeriodStatement\",\"period\":" + strconv.FormatInt(period, 10) + "}"
 	r, err := doPost(uri, []byte(data))
@@ -105,6 +107,7 @@ func GetRank(uri string, period int64, numRank int64) ([]teescore, []teectx, err
 	return CaculateRank(r, period, numRank)
 }
 
+// CaculateRank ...
 func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, error) {
 	var result Response
 	err := json.Unmarshal(r, &result)
@@ -162,7 +165,7 @@ func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, 
 		tee := teescore{attestee, FloatRound(score, 8)}
 		rst = append(rst, tee)
 	})
-	sort.Sort(TeeSoreSlice(rst))
+	sort.Sort(TeeSoreSlice(rst)) // 把计算结果按得分高低排序
 	if len(rst) < 1 {
 		return nil, nil, nil
 	}
@@ -172,19 +175,19 @@ func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, 
 		endIdx = numRank
 	}
 
-	rst = rst[0:endIdx]
-	//for _, r := range rst {
-	//	if v, ok := cm[r.Attestee]; ok {
+	rst = rst[0:endIdx] // 返回得分较大的 endIdx 个元素
+	//  for _, r := range rst {
+	//	  if v, ok := cm[r.Attestee]; ok {
 	//		teectxslice = append(teectxslice, v)
-	//	}
-	//}
-	//以结果的Attestee作为key
+	//	  }
+	//  }
+	// 以结果的Attestee作为key
 	scoreMap := make(map[string]float64)
 	for _, r := range rst {
 		scoreMap[r.Attestee] = r.Score
 	}
 
-	//遍历数组，获取前n个排名的被实节点对应的证实交易。
+	// 遍历数组，获取前n个排名的被实节点对应的证实交易。
 	for _, r := range rArr0 {
 		if scoreMap[r.Attestee] != 0 {
 			teectxslice = append(teectxslice, r)
@@ -194,12 +197,14 @@ func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, 
 	return rst, teectxslice, nil
 }
 
+// FloatRound ...
 func FloatRound(f float64, n int) float64 {
 	format := "%." + strconv.Itoa(n) + "f"
 	res, _ := strconv.ParseFloat(fmt.Sprintf(format, f), 64)
 	return res
 }
 
+// PrintHCGraph 辅助方法，用来打印结果
 func PrintHCGraph(uri string, period string) error {
 	data := "{\"command\":\"getBlocksInPeriodStatement\",\"period\":" + period + "}"
 	r, err := doPost(uri, []byte(data))
@@ -278,14 +283,17 @@ func doPost(uri string, d []byte) ([]byte, error) {
 	return r, nil
 }
 
+// Len ...
 func (t TeeSoreSlice) Len() int {
 	return len(t)
 }
 
+// Swap ...
 func (t TeeSoreSlice) Swap(i, j int) {
 	t[i], t[j] = t[j], t[i]
 }
 
+// Less ...
 func (t TeeSoreSlice) Less(i, j int) bool {
 	if t[i].Score != t[j].Score {
 		return t[i].Score > t[j].Score
