@@ -37,10 +37,8 @@ type teectx struct {
 	Attester string  `json:"attester"`
 	Attestee string  `json:"attestee"`
 	Score    float64 `json:"score"`
-	Address  string  `json:"address,omitempty"`
 	Time     string  `json:"time,omitempty"`
 	Nonce    int64   `json:"nonce,omitempty"`
-	Sign     string  `json:"sign,omitempty"`
 }
 
 type teescore struct {
@@ -63,15 +61,13 @@ func AddAttestationInfo(addr1 string, url string, info []string) error {
 	raw := new(teectx)
 	raw.Attester = info[0]
 	raw.Attestee = info[1]
-	raw.Address = info[3]
-	raw.Nonce, _ = strconv.ParseInt(info[4], 10, 64)
-	raw.Time = info[5]
-	raw.Sign = info[6]
-	num, err := strconv.ParseInt(info[2], 10, 64)
+	raw.Nonce, _ = strconv.ParseInt(info[3], 10, 64)
+	raw.Time = info[4]
+	score, err := strconv.ParseFloat(info[2], 64)
 	if err != nil {
 		return err
 	}
-	raw.Score = float64(num)
+	raw.Score = score
 	m := new(message)
 	m.TeeNum = 1
 	m.TeeContent = []teectx{*raw}
@@ -152,7 +148,7 @@ func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, 
 					fmt.Println("un invalid rank param. score is zero.")
 				}
 				graph.Link(r.Attester, r.Attestee, r.Score)
-				cm[r.Attestee] = teectx{r.Attester, r.Attestee, r.Score, "", "", 0, ""}
+				cm[r.Attestee] = teectx{r.Attester, r.Attestee, r.Score, "", 0}
 				rArr0 = append(rArr0, r)
 			}
 		}
