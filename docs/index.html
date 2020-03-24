@@ -1,0 +1,474 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "."</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Copyright by StreamNet team
+功能描述：
+1. 拼装新增证实交易请求；
+2. 获取被证实节点的排名：将dag中的证实交易按一定顺序构造全拓扑序，以分页的方式获取指定n个证实交易作为输入，使用pagerank算法计算出这些节点的排名。
+</p>
+
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+				<dd><a href="#pkg-variables">Variables</a></dd>
+			
+			
+				
+				<dd><a href="#AddAttestationInfo">func AddAttestationInfo(addr1 string, url string, info []string) error</a></dd>
+			
+				
+				<dd><a href="#CaculateRank">func CaculateRank(r []byte, period int64, numRank int64) ([]teescore, []teectx, error)</a></dd>
+			
+				
+				<dd><a href="#FloatRound">func FloatRound(f float64, n int) float64</a></dd>
+			
+				
+				<dd><a href="#GetRank">func GetRank(uri string, period int64, numRank int64) ([]teescore, []teectx, error)</a></dd>
+			
+				
+				<dd><a href="#PrintHCGraph">func PrintHCGraph(uri string, period string) error</a></dd>
+			
+				
+				<dd><a href="#doPost">func doPost(uri string, d []byte) ([]byte, error)</a></dd>
+			
+			
+				
+				<dd><a href="#Response">type Response</a></dd>
+				
+				
+			
+				
+				<dd><a href="#TeeSoreSlice">type TeeSoreSlice</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#TeeSoreSlice.Len">func (t TeeSoreSlice) Len() int</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#TeeSoreSlice.Less">func (t TeeSoreSlice) Less(i, j int) bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#TeeSoreSlice.Swap">func (t TeeSoreSlice) Swap(i, j int)</a></dd>
+				
+			
+				
+				<dd><a href="#message">type message</a></dd>
+				
+				
+			
+				
+				<dd><a href="#teectx">type teectx</a></dd>
+				
+				
+			
+				
+				<dd><a href="#teescore">type teescore</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/target/noderank.go">noderank.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+			<h2 id="pkg-variables">Variables</h2>
+			
+				
+				<pre>var <span id="addr">addr</span> = &#34;JVSVAFSXWHUIZPFDLORNDMASGNXWFGZFMXGLCJQGFWFEZWWOA9KYSPHCLZHFBCOHMNCCBAGNACPIGHVYX&#34;</pre>
+			
+				
+				<pre>var (
+    <span id="file">file</span> = <a href="/pkg/flag/">flag</a>.<a href="/pkg/flag/#String">String</a>(&#34;file&#34;, &#34;noderank/config.yaml&#34;, &#34;IOTA CONFIGURATION&#34;)
+)</pre>
+			
+				
+				<pre>var <span id="url">url</span> = &#34;http://localhost:14700&#34;</pre>
+			
+		
+		
+			
+			
+			<h2 id="AddAttestationInfo">func <a href="/src/target/noderank.go?s=1356:1426#L50">AddAttestationInfo</a>
+				<a class="permalink" href="#AddAttestationInfo">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func AddAttestationInfo(addr1 <a href="/pkg/builtin/#string">string</a>, url <a href="/pkg/builtin/#string">string</a>, info []<a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+AddAttestationInfo ...
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="CaculateRank">func <a href="/src/target/noderank.go?s=2885:2971#L97">CaculateRank</a>
+				<a class="permalink" href="#CaculateRank">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func CaculateRank(r []<a href="/pkg/builtin/#byte">byte</a>, period <a href="/pkg/builtin/#int64">int64</a>, numRank <a href="/pkg/builtin/#int64">int64</a>) ([]teescore, []teectx, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+CaculateRank ...
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="FloatRound">func <a href="/src/target/noderank.go?s=5097:5138#L187">FloatRound</a>
+				<a class="permalink" href="#FloatRound">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func FloatRound(f <a href="/pkg/builtin/#float64">float64</a>, n <a href="/pkg/builtin/#int">int</a>) <a href="/pkg/builtin/#float64">float64</a></pre>
+			<p>
+FloatRound ...
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="GetRank">func <a href="/src/target/noderank.go?s=2514:2597#L86">GetRank</a>
+				<a class="permalink" href="#GetRank">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func GetRank(uri <a href="/pkg/builtin/#string">string</a>, period <a href="/pkg/builtin/#int64">int64</a>, numRank <a href="/pkg/builtin/#int64">int64</a>) ([]teescore, []teectx, <a href="/pkg/builtin/#error">error</a>)</pre>
+			<p>
+根据条件获取到的所有证实交易都会参与noderank计算，结果返回前numRank的得分和对应得证实交易数（由于待输出数据是以attestee作为key得map中保存，
+最终输出得teectx最终数量会少于实际）。
+uri StreamNet服务restful地址， peroid表示把全部交易按每页100个分页后所取页数，numRank 取排名后前numRank个被证实节点
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="PrintHCGraph">func <a href="/src/target/noderank.go?s=5304:5354#L194">PrintHCGraph</a>
+				<a class="permalink" href="#PrintHCGraph">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func PrintHCGraph(uri <a href="/pkg/builtin/#string">string</a>, period <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#error">error</a></pre>
+			<p>
+PrintHCGraph 辅助方法，用来打印结果
+</p>
+
+			
+			
+
+		
+			
+			
+			<h2 id="doPost">func <a href="/src/target/noderank.go?s=6429:6478#L245">doPost</a>
+				<a class="permalink" href="#doPost">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func doPost(uri <a href="/pkg/builtin/#string">string</a>, d []<a href="/pkg/builtin/#byte">byte</a>) ([]<a href="/pkg/builtin/#byte">byte</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+			
+			
+			
+
+		
+		
+			
+			
+			<h2 id="Response">type <a href="/src/target/noderank.go?s=558:650#L16">Response</a>
+				<a class="permalink" href="#Response">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+Response ...
+</p>
+
+			<pre>type Response struct {
+<span id="Response.Blocks"></span>    Blocks   <a href="/pkg/builtin/#string">string</a> `json:&#34;blocks&#34;`
+<span id="Response.Duration"></span>    Duration <a href="/pkg/builtin/#int">int</a>    `json:&#34;duration&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="TeeSoreSlice">type <a href="/src/target/noderank.go?s=1086:1114#L40">TeeSoreSlice</a>
+				<a class="permalink" href="#TeeSoreSlice">&#xb6;</a>
+				
+				
+			</h2>
+			<p>
+TeeSoreSlice ...
+</p>
+
+			<pre>type TeeSoreSlice []teescore</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="TeeSoreSlice.Len">func (TeeSoreSlice) <a href="/src/target/noderank.go?s=7033:7064#L273">Len</a>
+					<a class="permalink" href="#TeeSoreSlice.Len">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (t <a href="#TeeSoreSlice">TeeSoreSlice</a>) Len() <a href="/pkg/builtin/#int">int</a></pre>
+				<p>
+Len ...
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="TeeSoreSlice.Less">func (TeeSoreSlice) <a href="/src/target/noderank.go?s=7176:7217#L283">Less</a>
+					<a class="permalink" href="#TeeSoreSlice.Less">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (t <a href="#TeeSoreSlice">TeeSoreSlice</a>) Less(i, j <a href="/pkg/builtin/#int">int</a>) <a href="/pkg/builtin/#bool">bool</a></pre>
+				<p>
+Less ...
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="TeeSoreSlice.Swap">func (TeeSoreSlice) <a href="/src/target/noderank.go?s=7097:7133#L278">Swap</a>
+					<a class="permalink" href="#TeeSoreSlice.Swap">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (t <a href="#TeeSoreSlice">TeeSoreSlice</a>) Swap(i, j <a href="/pkg/builtin/#int">int</a>)</pre>
+				<p>
+Swap ...
+</p>
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="message">type <a href="/src/target/noderank.go?s=652:755#L21">message</a>
+				<a class="permalink" href="#message">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type message struct {
+<span id="message.TeeNum"></span>    TeeNum     <a href="/pkg/builtin/#int64">int64</a>    `json:&#34;tee_num&#34;`
+<span id="message.TeeContent"></span>    TeeContent []teectx `json:&#34;tee_content&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="teectx">type <a href="/src/target/noderank.go?s=757:969#L26">teectx</a>
+				<a class="permalink" href="#teectx">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type teectx struct {
+<span id="teectx.Attester"></span>    Attester <a href="/pkg/builtin/#string">string</a>  `json:&#34;attester&#34;`
+<span id="teectx.Attestee"></span>    Attestee <a href="/pkg/builtin/#string">string</a>  `json:&#34;attestee&#34;`
+<span id="teectx.Score"></span>    Score    <a href="/pkg/builtin/#float64">float64</a> `json:&#34;score&#34;`
+<span id="teectx.Time"></span>    Time     <a href="/pkg/builtin/#string">string</a>  `json:&#34;time,omitempty&#34;`
+<span id="teectx.Nonce"></span>    Nonce    <a href="/pkg/builtin/#int64">int64</a>   `json:&#34;nonce,omitempty&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="teescore">type <a href="/src/target/noderank.go?s=971:1064#L34">teescore</a>
+				<a class="permalink" href="#teescore">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type teescore struct {
+<span id="teescore.Attestee"></span>    Attestee <a href="/pkg/builtin/#string">string</a>  `json:&#34;attestee&#34;`
+<span id="teescore.Score"></span>    Score    <a href="/pkg/builtin/#float64">float64</a> `json:&#34;score&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+<link type="text/css" rel="stylesheet" href="/noderank/style.css">
